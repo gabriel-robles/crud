@@ -1,3 +1,24 @@
 {
-  "teachers": []
+  "teachers": [
+    {
+      "id": 1,
+      "avatar_url": "https://scontent.fgru5-1.fna.fbcdn.net/v/t1.0-9/75614178_1217945925058323_4438571082319921152_o.jpg?_nc_cat=106&_nc_sid=09cbfe&_nc_ohc=J1IgJ6vQ2_0AX_-AxvT&_nc_ht=scontent.fgru5-1.fna&oh=7f40f1a9f1b842e89e15f9c9ecaa9b3d&oe=5F232D0A",
+      "name": "Gabriel Lucas Almeida de Souza Robles",
+      "birth": 917049600000,
+      "schooling": "EM",
+      "type_class": "P",
+      "services": "Matemática, física",
+      "created_at": 1593751207062
+    },
+    {
+      "id": 2,
+      "avatar_url": "https://scontent.fgru5-1.fna.fbcdn.net/v/t1.0-9/75614178_1217945925058323_4438571082319921152_o.jpg?_nc_cat=106&_nc_sid=09cbfe&_nc_ohc=J1IgJ6vQ2_0AX_-AxvT&_nc_ht=scontent.fgru5-1.fna&oh=7f40f1a9f1b842e89e15f9c9ecaa9b3d&oe=5F232D0A",
+      "name": "Gabriel Robles",
+      "birth": 685670400000,
+      "schooling": "ES",
+      "type_class": "D",
+      "services": "Química, Biologia",
+      "created_at": 1593810724116
+    }
+  ]
 }
