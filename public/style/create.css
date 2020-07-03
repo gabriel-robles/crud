@@ -11,13 +11,13 @@
     box-shadow: 0 4px 6px 2px rgba(0, 0, 0, 0.5);
 
     /* animation */
-    animation: up 400ms ease-out;
+    animation: up 200ms ease-out;
 }
 
 @keyframes up {
     from {
         opacity: 0;
-        transform: translateY(30px);
+        transform: translateY(15px);
     }
 
     to {
@@ -71,4 +71,43 @@
     font-weight: 700;
     text-transform: uppercase;
     font-size: 12px;
+}
+
+/*=== FORM ===*/
+input {
+    width: 100%;
+    outline: none;
+    color: #555;
+    font-weight: 700;
+    font-size: 18px;
+}
+
+input[type="radio"] {
+    width: initial;
+    margin-right: 4px;
+}
+
+input::placeholder {
+    font-size: 16px;
+    font-weight: 400;
+}
+
+select {
+    width: 50%;
+    outline: none;
+}
+
+select option {
+    outline: none;
+}
+
+button[type="submit"] {
+    padding: 8px 32px;
+    background-color: #50fa7b;
+    color: #fff;
+    border-radius: 6px;
+    margin-top: 32px;
+    width: 100%;
+    font-size: 18px;
+    outline: none;
 }
