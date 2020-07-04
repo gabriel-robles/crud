@@ -28,6 +28,7 @@
 /*=== DETAILS ===*/
 .details {
     padding: 32px;
+    position: relative;
 }
 
 .details .item {
@@ -97,17 +98,21 @@ select {
     outline: none;
 }
 
-select option {
-    outline: none;
-}
-
 button[type="submit"] {
     padding: 8px 32px;
     background-color: #50fa7b;
     color: #fff;
     border-radius: 6px;
     margin-top: 32px;
-    width: 100%;
     font-size: 18px;
     outline: none;
+    width: 205px;
+    box-sizing: border-box;
+}
+
+#btn-delete button[type="submit"] {
+    position: absolute;
+    bottom: 32px;
+    right: 32px;
+    background-color: lightcoral;
 }
