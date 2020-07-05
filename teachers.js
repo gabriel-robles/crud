@@ -1,8 +1,79 @@
 const fs = require('fs')
 const data = require('./data.json')
-const { age, created_date, graduation, date } = require('./utils')
+const {
+    age,
+    created_date,
+    graduation,
+    date
+} = require('./utils')
 
-//create
+exports.index = function (req, res) {
+    const teachers = data.teachers
+    const newTeachers = []
+
+    for (let foundTeacher of teachers) {
+        const teacher = {
+            ...foundTeacher,
+            services: foundTeacher.services.split(',')
+        }
+
+        newTeachers.push(teacher)
+     }
+
+    return res.render('teachers/teacher', {
+        teachers: newTeachers
+    })
+}
+
+exports.create = function (req, res) {
+    return res.render('teachers/create')
+}
+
+exports.show = function (req, res) {
+    const {
+        id
+    } = req.params
+
+    const foundTeacher = data.teachers.find(function (teacher) {
+        return teacher.id == id
+    })
+
+    if (!foundTeacher) return res.send('Teacher not found')
+
+    const teacher = {
+        ...foundTeacher,
+        age: age(foundTeacher.birth),
+        schooling: graduation(foundTeacher.schooling),
+        services: foundTeacher.services.split(','),
+        created_at: created_date(foundTeacher.created_at),
+    }
+
+    return res.render("teachers/show", {
+        teacher
+    })
+}
+
+exports.edit = function (req, res) {
+    const {
+        id
+    } = req.params
+
+    const foundTeacher = data.teachers.find(function (teacher) {
+        return teacher.id == id
+    })
+
+    if (!foundTeacher) return res.send('Teacher not found')
+
+    const teacher = {
+        ...foundTeacher,
+        birth: date(foundTeacher.birth)
+    }
+
+    return res.render('teachers/edit', {
+        teacher
+    })
+}
+
 exports.post = function (req, res) {
     const keys = Object.keys(req.body)
 
@@ -43,53 +114,7 @@ exports.post = function (req, res) {
     return res.redirect('/teachers')
 }
 
-// show
-exports.show = function (req, res) {
-    const {
-        id
-    } = req.params
-
-    const foundTeacher = data.teachers.find(function (teacher) {
-        return teacher.id == id
-    })
-
-    if (!foundTeacher) return res.send('Teacher not found')
-
-    const teacher = {
-        ...foundTeacher,
-        age: age(foundTeacher.birth),
-        schooling: graduation(foundTeacher.schooling),
-        services: foundTeacher.services.split(','),
-        created_at: created_date(foundTeacher.created_at),
-    }
-
-return res.render("teachers/show", {
-    teacher
-})
-}
-
-// edit
-exports.edit = function(req, res) {
-    const {
-        id
-    } = req.params
-
-    const foundTeacher = data.teachers.find(function (teacher) {
-        return teacher.id == id
-    })
-
-    if (!foundTeacher) return res.send('Teacher not found')
-
-    const teacher = {
-        ...foundTeacher,
-        birth: date(foundTeacher.birth)
-    }
-
-    return res.render('teachers/edit', { teacher })
-}
-
-// update
-exports.update = function(req, res) {
+exports.update = function (req, res) {
     const {
         id
     } = req.body
@@ -104,13 +129,13 @@ exports.update = function(req, res) {
 
     if (!foundTeacher) return res.send('Teacher not found')
 
-    const instructor = {
+    const teacher = {
         ...foundTeacher,
         ...req.body,
         birth: Date.parse(req.body.birth)
     }
 
-    data.teachers[index] = instructor
+    data.teachers[index] = teacher
 
     fs.writeFile('data.json', JSON.stringify(data, null, 2), function (err) {
         if (err) return res.send('write file error')
@@ -119,13 +144,12 @@ exports.update = function(req, res) {
     return res.redirect(`/teachers/${id}`)
 }
 
-// delete
-exports.delete = function(req, res) {
+exports.delete = function (req, res) {
     const {
         id
     } = req.body
 
-    const filteredTeachers = data.teachers.filter(function(teacher) {
+    const filteredTeachers = data.teachers.filter(function (teacher) {
         return teacher.id != id
     })
 

@@ -28,6 +28,7 @@
 /*=== DETAILS ===*/
 .details {
     padding: 32px;
+    position: relative;
 }
 
 .details .item {
@@ -105,6 +106,13 @@ button[type="submit"] {
     margin-top: 32px;
     font-size: 18px;
     outline: none;
-    width: 100%;
+    width: 205px;
     box-sizing: border-box;
+}
+
+#btn-delete button[type="submit"] {
+    position: absolute;
+    bottom: 32px;
+    right: 32px;
+    background-color: lightcoral;
 }
