@@ -1,0 +1,36 @@
+{% extends "layout.njk" %}
+
+{% block head %}
+    <title>Teacher Finder</title>
+{% endblock head %}
+
+{% block content %}
+    <div class="card table-container">
+        <a href="/students/create" class="btn-new">Novo</a>
+        <table width="100%">
+            <thead>
+                <tr>
+                    <th></th>
+                    <th>Nome completo</th>
+                    <th>E-mail</th>
+                    <th>Ano Escolar</th>
+                    <th>Ação</th>
+                </th>
+            </thead>
+
+            <tbody>
+                {% for student in students %}
+                    <tr>
+                        <td><span style="background-image: url({{student.avatar_url}})"></span></td>
+                        <td>{{student.name}}</td>
+                        <td>{{student.email}}</td>
+                        <td>{{student.school_year}}</td>
+                        <td>
+                            <a href="/students/{{student.id}}">Ver</a>
+                        </td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+{% endblock content %}

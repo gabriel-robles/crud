@@ -1,11 +1,10 @@
 const fs = require('fs')
-const data = require('./data.json')
+const data = require('../data.json')
 const {
     age,
-    created_date,
     graduation,
     date
-} = require('./utils')
+} = require('../utils')
 
 exports.index = function (req, res) {
     const teachers = data.teachers
@@ -20,7 +19,7 @@ exports.index = function (req, res) {
         newTeachers.push(teacher)
      }
 
-    return res.render('teachers/teacher', {
+    return res.render('teachers/index', {
         teachers: newTeachers
     })
 }
@@ -45,7 +44,7 @@ exports.show = function (req, res) {
         age: age(foundTeacher.birth),
         schooling: graduation(foundTeacher.schooling),
         services: foundTeacher.services.split(','),
-        created_at: created_date(foundTeacher.created_at),
+        created_at: date(foundTeacher.created_at).create,
     }
 
     return res.render("teachers/show", {
@@ -66,7 +65,7 @@ exports.edit = function (req, res) {
 
     const teacher = {
         ...foundTeacher,
-        birth: date(foundTeacher.birth)
+        birth: date(foundTeacher.birth).iso
     }
 
     return res.render('teachers/edit', {
@@ -83,27 +82,20 @@ exports.post = function (req, res) {
         }
     }
 
-    let {
-        avatar_url,
-        name,
-        birth,
-        schooling,
-        type_class,
-        services
-    } = req.body
-
-    birth = Date.parse(birth)
+    birth = Date.parse(req.body.birth)
+    
     const created_at = Date.now()
-    const id = Number(data.teachers.length + 1)
+    const lastTeacher = data.teachers[data.teachers.length - 1]
+    let id = 1
+
+    if (lastTeacher) {
+        id = lastTeacher.id + 1
+    }
 
     data.teachers.push({
         id,
-        avatar_url,
-        name,
+        ...req.body,
         birth,
-        schooling,
-        type_class,
-        services,
         created_at
     })
 
