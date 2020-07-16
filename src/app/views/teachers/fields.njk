@@ -23,10 +23,10 @@
     <div>Escolaridade</div>
     <div>
         <select name="schooling">
-            <option value="EM" {% if teacher.schooling == "EM" %} selected="selected" {% endif %}>Ensino Médio Completo</option>
-            <option value="ES" {% if teacher.schooling == "ES" %} selected="selected" {% endif %}>Ensino Superior Completo</option>
-            <option value="M" {% if teacher.schooling == "M" %} selected="selected" {% endif %}>Mestrado</option>
-            <option value="D" {% if teacher.schooling == "D" %} selected="selected" {% endif %}>Doutorado</option>
+            <option value="EM" {% if teacher.education_level == "EM" %} selected="selected" {% endif %}>Ensino Médio Completo</option>
+            <option value="ES" {% if teacher.education_level == "ES" %} selected="selected" {% endif %}>Ensino Superior Completo</option>
+            <option value="M" {% if teacher.education_level == "M" %} selected="selected" {% endif %}>Mestrado</option>
+            <option value="D" {% if teacher.education_level == "D" %} selected="selected" {% endif %}>Doutorado</option>
         </select>
     </div>
 </div>
@@ -35,11 +35,11 @@
     <div>Tipo de Aula</div>
     <div>
         <span>
-            <input type="radio" name="type_class" value="P" {% if teacher.type_class == "P" %} checked="checked" {% endif %}>Presencial
+            <input type="radio" name="type_class" value="P" {% if teacher.class_type == "P" %} checked="checked" {% endif %}>Presencial
         </span>
 
         <span>
-            <input type="radio" name="type_class" value="D" {% if teacher.type_class == "D" %} checked="checked" {% endif %}>À distância
+            <input type="radio" name="type_class" value="D" {% if teacher.class_type == "D" %} checked="checked" {% endif %}>À distância
         </span>
     </div>
 </div>
@@ -47,6 +47,6 @@
 <div class="item">
     <div>Areá de atuação</div>
     <div>
-        <input type="text" name="services" placeholder="Separe os seviços prestados por vírgula" value="{{teacher.services}}">
+        <input type="text" name="services" placeholder="Separe os seviços prestados por vírgula" value="{{teacher.subjects_taught}}">
     </div>
 </div>
