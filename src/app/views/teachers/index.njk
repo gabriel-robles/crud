@@ -6,21 +6,29 @@
 
 {% block content %}
     <div class="card table-container">
-        <a href="/teachers/create" class="btn-new">Novo</a>
+        <div class="header">
+            <a href="/teachers/create" class="button">Novo</a>
+            <form action="/teachers" method="GET">
+                <input type="text" name="find" placeholder="Buscar Professor ou Areá de Atuação" value="{{find}}">
+                <button type="submit">Buscar</button>
+            </form>
+
+        </div>
         <table width="100%">
             <thead>
                 <tr>
-                    <th>    </th>
+                    <th></th>
                     <th>Nome completo</th>
-                    <th>Acompanhamento</th>
-                    <th>Ação</th>
+                    <th>Areá de Atuação</th>
+                    <th></th>
                 </th>
             </thead>
 
             <tbody>
                 {% for teacher in teachers %}
                     <tr>
-                        <td><span style="background-image: url({{teacher.avatar_url}})"></span></td>
+                        <td>
+                            <span style="background-image: url({{teacher.avatar_url}})"></span></td>
                         <td>{{teacher.name}}</td>
                         <td>
                             {% for service in teacher.services %}

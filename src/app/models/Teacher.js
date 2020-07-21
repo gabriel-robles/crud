@@ -5,7 +5,9 @@ const {
 
 module.exports = {
     all(callback) {
-        db.query(`SElECT * FROM teachers ORDER BY name ASC`, function (err, results) {
+        db.query(`
+        SElECT * FROM teachers
+        ORDER BY name ASC`, function (err, results) {
             if (err) throw `Database Error! ${err}`
 
             callback(results.rows)
@@ -45,6 +47,17 @@ module.exports = {
             if (err) throw `Database Error! ${err}`
 
             callback(results.rows[0])
+        })
+    },
+    findBy(find, callback) {
+        db.query(`
+        SElECT * FROM teachers
+        WHERE teachers.name ILIKE '%${find}%'
+        OR teachers.subjects_taught ILIKE '%${find}%'
+        ORDER BY name ASC`, function (err, results) {
+            if (err) throw `Database Error! ${err}`
+
+            callback(results.rows)
         })
     },
     update(data, callback) {

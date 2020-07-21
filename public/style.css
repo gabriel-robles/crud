@@ -98,6 +98,36 @@ header {
     display: block;
 }
 
+.table-container .header {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    align-items: center;
+    margin-bottom: 32px;
+}
+
+.table-container .header a {
+    margin: 0;
+    width: 120px;
+}
+
+.table-container .header form {
+    display: grid;
+    grid-template-columns: 1fr 120px;
+    align-items: center;
+    gap: 8px;
+}
+
+.table-container .header form input {
+    border: 1px solid #ddd;
+    box-sizing: border-box;
+    padding: 4px 8px;
+    border-radius: 4px;
+}
+
+.table-container .header form button[type="submit"] {
+    margin: 0;
+}
+
 .table-container table {
     border-spacing: 0;
 }
@@ -134,8 +164,7 @@ tbody tr td:first-child span {
     border: 1px solid #50fa7a7c;
 }
 
-tbody tr td:last-child a,
-a.btn-new {
+tbody tr td:last-child a {
     background-color: var(--primary-color);
     padding: 8px 16px;
     text-decoration: none;
@@ -144,10 +173,6 @@ a.btn-new {
     font-size: 12px;
     border-radius: 4px;
     text-align: center;
-}
-
-a.btn-new {
-    margin-left: 8px;
 }
 
 /*=== DETAILS ===*/
@@ -241,7 +266,7 @@ input::placeholder {
     width: 47%;
 }
 
-#btn-delete button[type="submit"] {
+#btn-delete button {
     position: absolute;
     bottom: 32px;
     right: 32px;

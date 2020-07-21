@@ -3,25 +3,42 @@ const {
     graduation,
     date
 } = require('../../lib/utils')
-const teacher = require('../models/Teacher')
+const Teacher = require('../models/Teacher')
 
 module.exports = {
     index(req, res) {
-        teacher.all(function (teachers) {
-            for (let teacher of teachers) {
-                teacher.services = teacher.subjects_taught.split(',')
-            }
+        const {
+            find
+        } = req.query
 
-            return res.render('teachers/index', {
-                teachers
+        if (find) {
+            Teacher.findBy(find, function (teachers) {
+                for (let teacher of teachers) {
+                    teacher.services = teacher.subjects_taught.split(',')
+                }
+
+                return res.render('teachers/index', {
+                    teachers,
+                    find
+                })
             })
-        })
+        } else {
+            Teacher.all(function (teachers) {
+                for (let teacher of teachers) {
+                    teacher.services = teacher.subjects_taught.split(',')
+                }
+
+                return res.render('teachers/index', {
+                    teachers
+                })
+            })
+        }
     },
     create(req, res) {
         return res.render('teachers/create')
     },
     show(req, res) {
-        teacher.find(req.params.id, function (teacher) {
+        Teacher.find(req.params.id, function (teacher) {
             if (!teacher) return res.send('Teacher Not Found')
 
             teacher.age = age(teacher.birth_date)
@@ -35,7 +52,7 @@ module.exports = {
         })
     },
     edit(req, res) {
-        teacher.find(req.params.id, function (teacher) {
+        Teacher.find(req.params.id, function (teacher) {
             if (!teacher) return res.send('Teacher Not Found')
 
             teacher.birth = date(teacher.birth_date).iso
@@ -54,7 +71,7 @@ module.exports = {
             }
         }
 
-        teacher.create(req.body, function (teacher) {
+        Teacher.create(req.body, function (teacher) {
             return res.redirect(`/teachers/${teacher.id}`)
         })
     },
@@ -67,12 +84,12 @@ module.exports = {
             }
         }
 
-        teacher.update(req.body, function () {
+        Teacher.update(req.body, function () {
             return res.redirect(`/teachers/${req.body.id}`)
         })
     },
     delete(req, res) {
-        teacher.delete(req.body.id, function () {
+        Teacher.delete(req.body.id, function () {
             return res.redirect('/teachers')
         })
     }
