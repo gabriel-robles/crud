@@ -1,1 +1,1 @@
-<h1> CRUD </h1>
+<h1 style="display: flex; justify-self: center;"> CRUD </h1>
