@@ -95,14 +95,16 @@ header {
 .table-container {
     padding: 40px;
     box-sizing: border-box;
-    display: block;
+    display: grid;
+    grid-template: 64px 1fr 40px / 1fr;
 }
 
 .table-container .header {
     display: grid;
     grid-template-columns: 1fr 1fr;
     align-items: center;
-    margin-bottom: 32px;
+    margin: 0;
+    align-self: start;
 }
 
 .table-container .header a {
@@ -173,6 +175,34 @@ tbody tr td:last-child a {
     font-size: 12px;
     border-radius: 4px;
     text-align: center;
+}
+
+.table-container .pagination {
+    align-self: end;
+    justify-self: center;
+}
+
+.pagination a,
+.pagination span {
+    text-decoration: none;
+    color: var(--text-color);
+    margin-left: 16px;
+    font-size: 18px;
+}
+
+.pagination a:first-child {
+    margin: 0;
+}
+
+.pagination a:hover {
+    border-bottom: 1px solid var(--primary-color);
+    color: #26db53;
+    transition: 200ms;
+}
+
+.pagination a.active {
+    color: #26db53;
+    border-bottom: 1px solid var(--primary-color);
 }
 
 /*=== DETAILS ===*/

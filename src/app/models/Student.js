@@ -4,16 +4,33 @@ const {
 } = require('../../lib/utils')
 
 module.exports = {
-    all(callback) {
-        db.query(`SElECT * FROM students ORDER BY name ASC`, function (err, results) {
-            if (err) throw `Database Error! ${err}`
+    paginate(params, callback) {
+        const {
+            find,
+            limit,
+            offset,
+        } = params
+
+        let query = ''
+            findQuery = ''
+            totalQuery = `(SELECT count(*) FROM students) AS total`
+
+        if (find) {
+            findQuery = `WHERE students.name ILIKE '%${find}%' OR students.school_year ILIKE '%${find}%'`
+            totalQuery = `(SELECT count(*) FROM students ${findQuery}) AS total`
+        }
+
+        query = `SElECT *, ${totalQuery} FROM students ${findQuery} ORDER BY name ASC LIMIT $1 offset $2`
+
+        db.query(query, [limit, offset], (err, results) => {
+            if (err) throw `Database Error ${err}`
 
             callback(results.rows)
         })
     },
     create(data, callback) {
         const query =
-            `INSERT INTO students (
+        `INSERT INTO students (
             name,
             avatar_url,
             email,
@@ -34,7 +51,7 @@ module.exports = {
             data.teacher
         ]
 
-        db.query(query, values, function (err, results) {
+        db.query(query, values, (err, results) => {
             if (err) throw `Database Error! ${err}`
 
             callback(results.rows[0])
@@ -42,10 +59,10 @@ module.exports = {
     },
     find(id, callback) {
         db.query(`
-        SELECT students.*, teachers.name AS teacher_name 
+        SELECT students.*, students.name AS teacher_name 
         FROM students
         LEFT JOIN teachers ON (students.teacher_id = teachers.id) 
-        WHERE students.id = $1`, [id], function (err, results) {
+        WHERE students.id = $1`, [id], (err, results) => {
             if (err) throw `Database Error! ${err}`
 
             callback(results.rows[0])
@@ -74,24 +91,24 @@ module.exports = {
             data.id
         ]
 
-        db.query(query, values, function (err, results) {
+        db.query(query, values, (err, results) => {
             if (err) throw `Database Error! ${err}`
 
             callback()
         })
     },
     delete(id, callback) {
-        db.query(`DELETE FROM students WHERE id = ($1)`, [id], function (err, results) {
+        db.query(`DELETE FROM students WHERE id = ($1)`, [id], (err, results) => {
             if (err) throw `Database Error! ${err}`
 
             callback()
         })
     },
     teachersSelectOptions(callback) {
-        db.query(`SElECT name, id FROM teachers`, function (err, results) {
+        db.query(`SElECT name, id FROM teachers`, (err, results) => {
             if (err) throw `Database Error! ${err}`
 
             callback(results.rows)
         })
-    }
+    },
 }

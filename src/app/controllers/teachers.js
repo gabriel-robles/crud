@@ -7,38 +7,45 @@ const Teacher = require('../models/Teacher')
 
 module.exports = {
     index(req, res) {
-        const {
-            find
+        let {
+            find,
+            page,
+            limit
         } = req.query
 
-        if (find) {
-            Teacher.findBy(find, function (teachers) {
-                for (let teacher of teachers) {
-                    teacher.services = teacher.subjects_taught.split(',')
-                }
+        page = page || 1
+        limit = limit || 5
+        let offset = limit * (page - 1)
 
-                return res.render('teachers/index', {
-                    teachers,
-                    find
-                })
-            })
-        } else {
-            Teacher.all(function (teachers) {
-                for (let teacher of teachers) {
-                    teacher.services = teacher.subjects_taught.split(',')
-                }
-
-                return res.render('teachers/index', {
-                    teachers
-                })
-            })
+        const params = {
+            find,
+            page,
+            limit,
+            offset
         }
+
+        Teacher.paginate(params, (teachers) => {
+            const pagination = {
+                total: Math.ceil(teachers[0].total / limit),
+                page
+            }
+
+            for (teacher of teachers) {
+                teacher.subjects_taught = teacher.subjects_taught.split(',')
+            }
+
+            return res.render('teachers/index', {
+                teachers,
+                pagination,
+                find
+            })
+        })
     },
     create(req, res) {
         return res.render('teachers/create')
     },
     show(req, res) {
-        Teacher.find(req.params.id, function (teacher) {
+        Teacher.find(req.params.id, (teacher) => {
             if (!teacher) return res.send('Teacher Not Found')
 
             teacher.age = age(teacher.birth_date)
@@ -52,7 +59,7 @@ module.exports = {
         })
     },
     edit(req, res) {
-        Teacher.find(req.params.id, function (teacher) {
+        Teacher.find(req.params.id, (teacher) => {
             if (!teacher) return res.send('Teacher Not Found')
 
             teacher.birth = date(teacher.birth_date).iso
@@ -71,7 +78,7 @@ module.exports = {
             }
         }
 
-        Teacher.create(req.body, function (teacher) {
+        Teacher.create(req.body, (teacher) => {
             return res.redirect(`/teachers/${teacher.id}`)
         })
     },
@@ -84,12 +91,12 @@ module.exports = {
             }
         }
 
-        Teacher.update(req.body, function () {
+        Teacher.update(req.body, () => {
             return res.redirect(`/teachers/${req.body.id}`)
         })
     },
     delete(req, res) {
-        Teacher.delete(req.body.id, function () {
+        Teacher.delete(req.body.id, () => {
             return res.redirect('/teachers')
         })
     }

@@ -8,6 +8,10 @@
     <div class="card table-container">
         <div class="header">
             <a href="/students/create" class="button">Novo</a>
+            <form action="/students" method="GET">
+                <input type="text" name="find" placeholder="Buscar Aluno ou Ano Escolar" value="{{find}}">
+                <button type="submit">Buscar</button>
+            </form>
         </div>
 
         <table width="100%">
@@ -36,5 +40,9 @@
                 {% endfor %}
             </tbody>
         </table>
+
+        <div class="pagination" data-page={{pagination.page}} data-total={{pagination.total}} data-find={{find}}></div>
     </div>
+
+    <script src="/scripts/pagination.js"></script>
 {% endblock content %}

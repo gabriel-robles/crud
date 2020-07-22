@@ -9,11 +9,11 @@
         <div class="header">
             <a href="/teachers/create" class="button">Novo</a>
             <form action="/teachers" method="GET">
-                <input type="text" name="find" placeholder="Buscar Professor ou Areá de Atuação" value="{{find}}">
+                <input type="text" name="find" placeholder="Buscar Professor ou área de Atuação" value="{{find}}">
                 <button type="submit">Buscar</button>
             </form>
-
         </div>
+        
         <table width="100%">
             <thead>
                 <tr>
@@ -31,7 +31,7 @@
                             <span style="background-image: url({{teacher.avatar_url}})"></span></td>
                         <td>{{teacher.name}}</td>
                         <td>
-                            {% for service in teacher.services %}
+                            {% for service in teacher.subjects_taught %}
                                 <span>{{service}}</span>
                             {% endfor %}
                         </td>
@@ -42,5 +42,9 @@
                 {% endfor %}
             </tbody>
         </table>
+
+        <div class="pagination" data-page={{pagination.page}} data-total={{pagination.total}} data-find={{find}}></div>
     </div>
+
+    <script src="/scripts/pagination.js"></script>
 {% endblock content %}
